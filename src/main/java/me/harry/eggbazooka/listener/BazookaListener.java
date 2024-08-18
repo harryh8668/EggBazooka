@@ -31,9 +31,17 @@ public class BazookaListener implements Listener {
                 if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (checkAmmo(event.getPlayer(), new ItemStack(Material.EGG))) {
                         if (getAmmo(event.getPlayer(), new ItemStack(Material.EGG)) > 0) {
-                            org.bukkit.entity.Egg egg = event.getPlayer().launchProjectile(org.bukkit.entity.Egg.class);
-                            egg.setMetadata("explosive", new FixedMetadataValue(plugin, true));
-                            removeAmmo(event.getPlayer(), new ItemStack(Material.EGG));
+                            if (meta.getPersistentDataContainer().has(new NamespacedKey(plugin, "rapid"), PersistentDataType.STRING)) {
+                                org.bukkit.entity.Egg egg = event.getPlayer().launchProjectile(org.bukkit.entity.Egg.class);
+                                event.getPlayer().launchProjectile(org.bukkit.entity.Egg.class);
+                                egg.setMetadata("explosive", new FixedMetadataValue(plugin, true));
+                                removeAmmo(event.getPlayer(), new ItemStack(Material.EGG));
+                                removeAmmo(event.getPlayer(), new ItemStack(Material.EGG));
+                            } else {
+                                org.bukkit.entity.Egg egg = event.getPlayer().launchProjectile(org.bukkit.entity.Egg.class);
+                                egg.setMetadata("explosive", new FixedMetadataValue(plugin, true));
+                                removeAmmo(event.getPlayer(), new ItemStack(Material.EGG));
+                            }
                         }
                     } else {
                         event.getPlayer().sendMessage("Out of ammo");
